@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  download-server:
+    image: ramesesinc/node-download-server:0.0.1
+    container_name: node-download-server
+    restart: always
+    logging:
+      driver: "json-file"
+      options: 
+        max-file: "5"
+        max-size: 10m
+
+    environment:
+      TZ: "Asia/Manila"
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ../env.conf:/apps/server/public/resources/env.conf
+      - ../resources:/apps/server/public/resources
+      - ../obo/client:/apps/server/resources/downloads/modules/obo
+      - ../custom/client:/apps/server/resources/downloads/modules/custom

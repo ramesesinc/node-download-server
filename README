@@ -1,0 +1,39 @@
+node-download-server (for testing)
+===================================================
+Key features:
+- The server will automatically rebuild the 
+  updates.xml configuration files upon every startup.
+
+- If "order" is not set on file modules, it is 
+  initialzed to 0, which means it will be at the top 
+  of the modules structure.
+
+- To browse configuration     
+    
+    http://localhost:8000/config
+
+- Once the server is running, the configuration can 
+  be rebuilt by accessing the endpoint:
+
+    http://localhost:8000/config/rebuild
+
+
+
+===================================================
+Instruction:
+
+1. Build node-download-server by running "build.sh"
+
+2. Edit docker-compose and mount configurations as required.
+
+3. Run docker-compose 
+
+4. Access configurations as shown:
+
+    http://localhost:8000/resources/downloads/updates.xml
+    http://localhost:8000/resources/downloads/obo-updates.xml
+
+
+
+
+    
