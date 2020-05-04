@@ -99,7 +99,7 @@ const buildModulesXml = mfile => {
   modules.forEach(mod => {
     xml += '    <module '
     for (const key in mod) {
-      if (!mod.hasOwnProperty(key)) continue;
+      if (!mod.hasOwnProperty(key) || excludedKey(key)) continue;
       xml += key + '="'  + mod[key] + '" ';
     }
     xml += ' />\n'
@@ -107,6 +107,10 @@ const buildModulesXml = mfile => {
 
   xml += '  </modules>\n';
   return xml;
+}
+
+const excludedKey = (key) => {
+  return /(order)/.test(key);
 }
 
 const saveUpdatesXml = mfile => {
@@ -191,7 +195,6 @@ const buildUpdatesXml = (rootDir) => {
 module.exports = {
   buildUpdatesXml
 }
-
 
 
 
