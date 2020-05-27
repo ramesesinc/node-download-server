@@ -130,9 +130,16 @@ const saveUpdatesXml = mfile => {
 };
 
 const loadConf = rootDir => {
+  const confFiles = ['env.conf', 'custom.conf', 'res.conf'];
   try {
-    const confFileName = path.join(rootDir, 'public', 'resources', 'env.conf');
-    const conf = ini.parse(fs.readFileSync(confFileName, 'utf-8'));
+    let conf = {};
+    confFiles.forEach( confFile => {
+      const confFileName = path.join(rootDir, 'public', 'resources', confFile);
+      if (fs.existsSync(confFileName)) {
+        const newConf = ini.parse(fs.readFileSync(confFileName, 'utf-8'));
+        conf = {...conf, ...newConf}
+      }
+    })
     resolveConfValues(conf);
     return conf;
 
