@@ -20,6 +20,8 @@ services:
 
     volumes:
       - ../env.conf:/apps/server/public/resources/env.conf
+      # - ../_custom/env.conf:/apps/server/public/resources/custom.conf
+      # - ../_res/env.conf:/apps/server/public/resources/res.conf
       - ../resources:/apps/server/public/resources
       - ../obo/client:/apps/server/resources/downloads/modules/obo
       - ../custom/client:/apps/server/resources/downloads/modules/custom
