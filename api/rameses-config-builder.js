@@ -113,24 +113,17 @@ const excludedKey = (key) => {
   return /(order)/.test(key);
 }
 
-const saveUpdatesXml = mfile => {
+const buildXmlConfig = mfile => {
   let xml = '<app>\n';
   xml += buildEnvXml(mfile);
   xml += buildModulesXml(mfile);
   xml += '</app>\n'
-  let fileName = path.join(mfile.dir, mfile.file);
-  fileName = fileName.replace('.myml', '.xml');
-  fs.writeFile(fileName, xml, 'utf-8', (err) => {
-    if (err) {
-      console.log('Error saving ' + fileName, err);
-      throw err;
-    }
-    console.log('Created:  ' + fileName);
-  });
+  const filename = mfile.file.replace('.myml', '.xml');
+  return {filename, xml}
 };
 
 const loadConf = rootDir => {
-  const confFiles = ['env.conf', 'custom.conf', 'res.conf'];
+  const confFiles = ['res.conf', 'custom.conf', 'env.conf'];
   try {
     let conf = {};
     confFiles.forEach( confFile => {
@@ -182,6 +175,7 @@ const buildUpdatesXml = (rootDir) => {
   
   const resourcesDir = path.join(rootDir, 'public', 'resources');
   const mfiles = rfs.findFilesByExt(resourcesDir, "myml");
+  const configs = [];
   mfiles.forEach(mfile => {
     try {
       mfile.yml = yaml.safeLoad(fs.readFileSync(path.join(mfile.dir, mfile.file)));
@@ -189,13 +183,15 @@ const buildUpdatesXml = (rootDir) => {
       const pfiles = rfs.findFilesByName(resourcesDir, mfile.pfile);
       mergeYml(mfile, pfiles);
       applyConf(conf, mfile.yml);
-      saveUpdatesXml(mfile);
+      const config = buildXmlConfig(mfile);
+      configs.push(config);
     } catch (err) {
       const fileName = path.join(mfile.dir, mfile.file);
       console.log('ParseMFile [ERROR] ' + fileName + ': ', err);
       throw err;
     }
   });
+  return configs;
 }
 
 

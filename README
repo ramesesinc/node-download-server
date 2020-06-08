@@ -10,13 +10,7 @@ Key features:
 
 - To browse configuration     
     
-    http://localhost:8000/config
-
-- Once the server is running, the configuration can 
-  be rebuilt by accessing the endpoint:
-
-    http://localhost:8000/config/rebuild
-
+    http://localhost:8000/resources/downloads/config
 
 
 ===================================================
