@@ -130,7 +130,7 @@ const saveUpdatesXml = mfile => {
 };
 
 const loadConf = rootDir => {
-  const confFiles = ['env.conf', 'custom.conf', 'res.conf'];
+  const confFiles = ['res.conf', 'custom.conf', 'env.conf'];
   try {
     let conf = {};
     confFiles.forEach( confFile => {
