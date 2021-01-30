@@ -4,10 +4,10 @@ const yaml = require('js-yaml');
 const ini = require('ini');
 
 const rfs = require('./rameses-node-files');
-const rutil = require('./rameses-node-utils');
-
 
 const mergeYml = (mfile, pfiles) => {
+  let customIdx = 100000;
+
   pfiles.forEach(pfile => {
     const pyml = yaml.safeLoad(fs.readFileSync(path.join(pfile.dir, pfile.file)));
     
@@ -24,7 +24,13 @@ const mergeYml = (mfile, pfiles) => {
     //merge modules
     let pmodules = [];
     if (pyml.app) pmodules = pyml.app.modules;
-    if (!pmodules) pyml.modules;
+    if (!pmodules) pmodules = [];
+    
+    if (/custom/.test(pfile.dir) && pmodules) {
+      //custom dir, negate order to place it on the top of modules
+      pmodules.forEach(mod => mod.order =  (customIdx - mod.order) * (-1));
+      customIdx += 10000;
+    }
     if (pmodules && pmodules.length !== 0) {
       const mergeModules = [...mfile.yml.app.modules, ...pmodules];
       mfile.yml.app.modules = mergeModules;

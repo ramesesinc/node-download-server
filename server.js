@@ -28,7 +28,7 @@ app.use(
   })
 );
 
-app.get("/resources/downloads/config/", (req, res) => {
+app.get("/resources/downloads/config", (req, res) => {
   const files = rconfig.buildUpdatesXml(__dirname);
   if (files.length > 0) {
     res.json(files);

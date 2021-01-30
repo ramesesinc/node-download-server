@@ -3,7 +3,7 @@ version: "3"
 services:
 
   download-server:
-    image: ramesesinc/node-download-server:0.0.1
+    image: ramesesinc/node-download-server:0.0.3
     container_name: node-download-server
     restart: always
     logging:
